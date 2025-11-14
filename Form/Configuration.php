@@ -1,6 +1,6 @@
 <?php
 
-namespace HookPiwikAnalytics\Form;
+namespace HookMatomoAnalytics\Form;
 
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
@@ -18,93 +18,93 @@ class Configuration extends BaseForm
     {
         $this->formBuilder
             ->add(
-                'hookpiwikanalytics_url',
+                'hookmatomoanalytics_url',
                 'text',
                 array(
                     'constraints' => array(
                         new NotBlank(),
                     ),
-                    'data' => ConfigQuery::read('hookpiwikanalytics_url', ''),
-                    'label' => $this->translator->trans('Piwik URL'),
+                    'data' => ConfigQuery::read('hookmatomoanalytics_url', ''),
+                    'label' => $this->translator->trans('Matomo URL'),
                     'label_attr' => array(
-                        'for' => 'hookpiwikanalytics_url',
+                        'for' => 'hookmatomoanalytics_url',
                     ),
                 )
             )
             ->add(
-                'hookpiwikanalytics_website_id',
+                'hookmatomoanalytics_website_id',
                 'number',
                 array(
                     'constraints' => array(
                         new NotBlank(),
                     ),
-                    'data' => ConfigQuery::read('hookpiwikanalytics_website_id', 0),
+                    'data' => ConfigQuery::read('hookmatomoanalytics_website_id', 0),
                     'label' => $this->translator->trans('Website ID'),
                     'label_attr' => array(
-                        'for' => 'hookpiwikanalytics_website_id',
+                        'for' => 'hookmatomoanalytics_website_id',
                     ),
                 )
             )
             ->add(
-                'hookpiwikanalytics_enable_subdomains',
+                'hookmatomoanalytics_enable_subdomains',
                 'checkbox',
                 array(
                     'required' => false,
-                    'value' => (bool)ConfigQuery::read('hookpiwikanalytics_enable_subdomains', false),
+                    'value' => (bool)ConfigQuery::read('hookmatomoanalytics_enable_subdomains', false),
                     'label' => $this->translator->trans('Enable tracking across subdomains'),
                     'label_attr' => array(
-                        'for' => 'hookpiwikanalytics_enable_subdomains',
+                        'for' => 'hookmatomoanalytics_enable_subdomains',
                     ),
                 )
             )
             ->add(
-                'hookpiwikanalytics_enable_contenttracking',
+                'hookmatomoanalytics_enable_contenttracking',
                 'checkbox',
                 array(
                     'required' => false,
-                    'value' => (bool)ConfigQuery::read('hookpiwikanalytics_enable_contenttracking', false),
+                    'value' => (bool)ConfigQuery::read('hookmatomoanalytics_enable_contenttracking', false),
                     'label' => $this->translator->trans('Enable Content Tracking'),
                     'label_attr' => array(
-                        'for' => 'hookpiwikanalytics_enable_contenttracking',
+                        'for' => 'hookmatomoanalytics_enable_contenttracking',
                     ),
                 )
             )
-			->add(
-				'hookpiwikanalytics_enable_contenttracking_visible_only',
-				'checkbox',
-				array(
-					'required' => false,
-					'value' => (bool)ConfigQuery::read('hookpiwikanalytics_enable_contenttracking_visible_only', false),
-					'label' => $this->translator->trans('Only track visible content'),
-					'label_attr' => array(
-						'for' => 'hookpiwikanalytics_enable_contenttracking_visible_only',
-					),
-				)
-			)
             ->add(
-                'hookpiwikanalytics_custom_campaign_name',
+                'hookmatomoanalytics_enable_contenttracking_visible_only',
+                'checkbox',
+                array(
+                    'required' => false,
+                    'value' => (bool)ConfigQuery::read('hookmatomoanalytics_enable_contenttracking_visible_only', false),
+                    'label' => $this->translator->trans('Only track visible content'),
+                    'label_attr' => array(
+                        'for' => 'hookmatomoanalytics_enable_contenttracking_visible_only',
+                    ),
+                )
+            )
+            ->add(
+                'hookmatomoanalytics_custom_campaign_name',
                 'text',
                 array(
                     'required' => false,
-                    'data' => ConfigQuery::read('hookpiwikanalytics_custom_campaign_name', ''),
+                    'data' => ConfigQuery::read('hookmatomoanalytics_custom_campaign_name', ''),
                     'label' => $this->translator->trans('Custom campaign name parameter'),
                     'label_attr' => array(
-                        'for' => 'hookpiwikanalytics_custom_campaign_name',
+                        'for' => 'hookmatomoanalytics_custom_campaign_name',
                     ),
                 )
             )
             ->add(
-                'hookpiwikanalytics_custom_campaign_keyword',
+                'hookmatomoanalytics_custom_campaign_keyword',
                 'text',
                 array(
                     'required' => false,
-                    'data' => ConfigQuery::read('hookpiwikanalytics_custom_campaign_keyword', ''),
+                    'data' => ConfigQuery::read('hookmatomoanalytics_custom_campaign_keyword', ''),
                     'label' => $this->translator->trans('Custom campaign keyword parameter'),
                     'label_attr' => array(
-                        'for' => 'hookpiwikanalytics_custom_campaign_keyword',
+                        'for' => 'hookmatomoanalytics_custom_campaign_keyword',
                     ),
                 )
-            );          
+            );
     }
 
     /**
@@ -112,6 +112,6 @@ class Configuration extends BaseForm
      */
     public function getName()
     {
-        return 'hookpiwikanalytics';
+        return 'hookmatomoanalytics';
     }
 }

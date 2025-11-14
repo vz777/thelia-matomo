@@ -1,6 +1,6 @@
 <?php
 
-namespace HookPiwikAnalytics\EventListeners;
+namespace HookMatomoAnalytics\EventListeners;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -19,11 +19,11 @@ class CartEventListener implements EventSubscriberInterface
 
     public function __construct()
     {
-        $this->url = ConfigQuery::read('hookpiwikanalytics_url', false);
-        $this->website_id = ConfigQuery::read('hookpiwikanalytics_website_id', false);
+        $this->url = ConfigQuery::read('hookmatomoanalytics_url', false);
+        $this->website_id = ConfigQuery::read('hookmatomoanalytics_website_id', false);
 
-        \PiwikTracker::$URL = $this->url;
-        $this->tracker = new \PiwikTracker($this->website_id);
+        \MatomoTracker::$URL = $this->url;
+        $this->tracker = new \MatomoTracker($this->website_id);
     }
 
     public static function getSubscribedEvents()

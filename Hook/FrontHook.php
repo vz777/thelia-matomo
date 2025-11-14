@@ -1,6 +1,6 @@
 <?php
 
-namespace HookPiwikAnalytics\Hook;
+namespace HookMatomoAnalytics\Hook;
 
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Hook\BaseHook;
@@ -22,8 +22,8 @@ class FrontHook extends BaseHook
 
     public function __construct()
     {
-        $this->url = ConfigQuery::read('hookpiwikanalytics_url', false);
-        $this->website_id = ConfigQuery::read('hookpiwikanalytics_website_id', false);
+        $this->url = ConfigQuery::read('hookmatomoanalytics_url', false);
+        $this->website_id = ConfigQuery::read('hookmatomoanalytics_website_id', false);
     }
 
     /* Include tracking bug
@@ -47,18 +47,18 @@ class FrontHook extends BaseHook
                     $defaultCategory->getTitle(), // Category
                 );
                 break;
-            
+
             // Product detail page viewed
             case 'product':
                 $productId = $this->getRequest()->getProductId();
                 $product = ProductQuery::create()
                     ->findPk($productId);
-                
-                if($defaultCategoryId = $product->getDefaultCategoryId()) {
+
+                if ($defaultCategoryId = $product->getDefaultCategoryId()) {
                     $defaultCategory = CategoryQuery::create()
                         ->findPk($defaultCategoryId);
                 }
-                
+
                 $options[] = array(
                     'setEcommerceView',
                     ($product->getRef() ? $product->getRef() : $product->getId()), // SKU or ID
@@ -78,29 +78,29 @@ class FrontHook extends BaseHook
     {
         if (!empty($this->url) && is_numeric($this->website_id)) {
             // remove / after url
-            $this->url = rtrim($this->url, '/').'/';
-            
-            if((bool)ConfigQuery::read('hookpiwikanalytics_enable_subdomains', false)) {
+            $this->url = rtrim($this->url, '/') . '/';
+
+            if ((bool)ConfigQuery::read('hookmatomoanalytics_enable_subdomains', false)) {
                 // Get host w/o www or subdomain, see http://snipplr.com/view/61235/
                 preg_match("/[^\.\/]+\.[^\.\/]+$/", $_SERVER['HTTP_HOST'], $matches);
 
                 $options[] = array(
                     'setCookieDomain',
-                    '*.'.$matches[0]
+                    '*.' . $matches[0]
                 );
             }
 
-            if(!empty(trim(ConfigQuery::read('hookpiwikanalytics_custom_campaign_name', '')))) {
+            if (!empty(trim(ConfigQuery::read('hookmatomoanalytics_custom_campaign_name', '')))) {
                 $options[] = array(
                     'setCampaignNameKey',
-                    ConfigQuery::read('hookpiwikanalytics_custom_campaign_name')
+                    ConfigQuery::read('hookmatomoanalytics_custom_campaign_name')
                 );
             }
-            
-            if(!empty(trim(ConfigQuery::read('hookpiwikanalytics_custom_campaign_keyword', '')))) {
+
+            if (!empty(trim(ConfigQuery::read('hookmatomoanalytics_custom_campaign_keyword', '')))) {
                 $options[] = array(
                     'setCampaignKeywordKey',
-                    ConfigQuery::read('hookpiwikanalytics_custom_campaign_keyword')
+                    ConfigQuery::read('hookmatomoanalytics_custom_campaign_keyword')
                 );
             }
 
@@ -114,36 +114,36 @@ class FrontHook extends BaseHook
             }
 
             // Enable Content Tracking
-			// See http://piwik.org/docs/content-tracking/
-			if((bool)ConfigQuery::read('hookpiwikanalytics_enable_contenttracking', false)) {
-				if((bool)ConfigQuery::read('hookpiwikanalytics_enable_contenttracking_visible_only', false)) {
-                	$options[] = array('trackVisibleContentImpressions');
-				} else {
-					$options[] = array('trackAllContentImpressions');
-				}
+            // See http://piwik.org/docs/content-tracking/
+            if ((bool)ConfigQuery::read('hookmatomoanalytics_enable_contenttracking', false)) {
+                if ((bool)ConfigQuery::read('hookmatomoanalytics_enable_contenttracking_visible_only', false)) {
+                    $options[] = array('trackVisibleContentImpressions');
+                } else {
+                    $options[] = array('trackAllContentImpressions');
+                }
             }
 
             $code = '
             <script type="text/javascript">
                 var _paq = _paq || [];';
-            
+
             foreach ($options as $option) {
                 $code .= '
-                _paq.push('.json_encode($option).');';
+                _paq.push(' . json_encode($option) . ');';
             }
-            
+
             $code .= '
                 _paq.push([\'enableLinkTracking\']);
                 _paq.push([\'trackPageView\']);
                 (function() {
-                    var u="'.$this->url.'";
-                    _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);
-                    _paq.push([\'setSiteId\', '.$this->website_id.']);
+                    var u="' . $this->url . '";
+                    _paq.push([\'setTrackerUrl\', u+\'matomo.php\']);
+                    _paq.push([\'setSiteId\', ' . $this->website_id . ']);
                     var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
-                    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);
+                    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
                 })();
             </script>
-            <noscript><p><img src="'.$this->url.'piwik.php?idsite='.$this->website_id.'" style="border:0;" alt="" /></p></noscript>
+            <noscript><p><img src="' . $this->url . 'matomo.php?idsite=' . $this->website_id . '" style="border:0;" alt="" /></p></noscript>
             ';
 
             return $code;

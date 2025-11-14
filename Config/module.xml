@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://thelia.net/schema/dic/module" xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_1.xsd">
-	<fullnamespace>HookPiwikAnalytics\HookPiwikAnalytics</fullnamespace>
+	<fullnamespace>HookMatomoAnalytics\HookMatomoAnalytics</fullnamespace>
 	<descriptive locale="en_US">
-		<title>Piwik Analytics</title>
+		<title>Matomo Analytics</title>
 	</descriptive>
 	<descriptive locale="fr_FR">
-		<title>Piwik Statistiques</title>
+		<title>Matomo Statistiques</title>
 	</descriptive>
 	<descriptive locale="de_DE">
-		<title>Piwik Analytics</title>
+		<title>Matomo Analytics</title>
 	</descriptive>
 	<languages>
 		<language>en_US</language>

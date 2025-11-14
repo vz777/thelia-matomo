@@ -1,6 +1,6 @@
 <?php
 
-namespace HookPiwikAnalytics\Controller;
+namespace HookMatomoAnalytics\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Thelia\Controller\Admin\BaseAdminController;
@@ -17,11 +17,11 @@ class ConfigurationController extends BaseAdminController
 {
     public function saveAction()
     {
-        if ($response = $this->checkAuth(array(AdminResources::MODULE), array('hookpiwikanalytics'), AccessManager::UPDATE) !== null) {
+        if ($response = $this->checkAuth(array(AdminResources::MODULE), array('hookmatomoanalytics'), AccessManager::UPDATE) !== null) {
             return $response;
         }
 
-        $form = new \HookPiwikAnalytics\Form\Configuration($this->getRequest());
+        $form = new \HookMatomoAnalytics\Form\Configuration($this->getRequest());
         $resp = array(
             'error' => 0,
             'message' => '',
@@ -32,13 +32,13 @@ class ConfigurationController extends BaseAdminController
             $vform = $this->validateForm($form);
             $data = $vform->getData();
 
-            ConfigQuery::write('hookpiwikanalytics_url', $data['hookpiwikanalytics_url']);
-            ConfigQuery::write('hookpiwikanalytics_website_id', $data['hookpiwikanalytics_website_id']);
-            ConfigQuery::write('hookpiwikanalytics_enable_subdomains', is_bool($data['hookpiwikanalytics_enable_subdomains']) ? (int) ($data['hookpiwikanalytics_enable_subdomains']) : $data['hookpiwikanalytics_enable_subdomains']);
-			ConfigQuery::write('hookpiwikanalytics_enable_contenttracking', is_bool($data['hookpiwikanalytics_enable_contenttracking']) ? (int) ($data['hookpiwikanalytics_enable_contenttracking']) : $data['hookpiwikanalytics_enable_contenttracking']);
-			ConfigQuery::write('hookpiwikanalytics_enable_contenttracking_visible_only', is_bool($data['hookpiwikanalytics_enable_contenttracking_visible_only']) ? (int) ($data['hookpiwikanalytics_enable_contenttracking_visible_only']) : $data['hookpiwikanalytics_enable_contenttracking_visible_only']);
-            ConfigQuery::write('hookpiwikanalytics_custom_campaign_name', $data['hookpiwikanalytics_custom_campaign_name']);
-            ConfigQuery::write('hookpiwikanalytics_custom_campaign_keyword', $data['hookpiwikanalytics_custom_campaign_keyword']);
+            ConfigQuery::write('hookmatomoanalytics_url', $data['hookmatomoanalytics_url']);
+            ConfigQuery::write('hookmatomoanalytics_website_id', $data['hookmatomoanalytics_website_id']);
+            ConfigQuery::write('hookmatomoanalytics_enable_subdomains', is_bool($data['hookmatomoanalytics_enable_subdomains']) ? (int) ($data['hookmatomoanalytics_enable_subdomains']) : $data['hookmatomoanalytics_enable_subdomains']);
+            ConfigQuery::write('hookmatomoanalytics_enable_contenttracking', is_bool($data['hookmatomoanalytics_enable_contenttracking']) ? (int) ($data['hookmatomoanalytics_enable_contenttracking']) : $data['hookmatomoanalytics_enable_contenttracking']);
+            ConfigQuery::write('hookmatomoanalytics_enable_contenttracking_visible_only', is_bool($data['hookmatomoanalytics_enable_contenttracking_visible_only']) ? (int) ($data['hookmatomoanalytics_enable_contenttracking_visible_only']) : $data['hookmatomoanalytics_enable_contenttracking_visible_only']);
+            ConfigQuery::write('hookmatomoanalytics_custom_campaign_name', $data['hookmatomoanalytics_custom_campaign_name']);
+            ConfigQuery::write('hookmatomoanalytics_custom_campaign_keyword', $data['hookmatomoanalytics_custom_campaign_keyword']);
         } catch (\Exception $e) {
             $resp['error'] = 1;
             $resp['message'] = $e->getMessage();

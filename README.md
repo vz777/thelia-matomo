@@ -1,13 +1,13 @@
-# Piwik Analytics integration for Thelia E-Commerce
+# Matomo Analytics integration for Thelia E-Commerce
 
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
-This module implements [Piwik](http://piwik.org) user and e-commerce tracking into [Thelia](http://thelia.net).
+This module implements [Matomo](http://matomo.org) user and e-commerce tracking into [Thelia](http://thelia.net).
 It reports the following tracking events:
 
 ## User Tracking
 
-This module uses the `main.body-bottom` hook to include the piwik javascript bug into the frontend of a Thelia installation. Most user activities can therefor be tracked. This includes [Content Tracking](http://piwik.org/docs/content-tracking/) and [User ID Tracking](http://piwik.org/docs/user-id/) for logged in customers.
+This module uses the `main.body-bottom` hook to include the matomo javascript bug into the frontend of a Thelia installation. Most user activities can therefor be tracked. This includes [Content Tracking](http://piwik.org/docs/content-tracking/) and [User ID Tracking](http://piwik.org/docs/user-id/) for logged in customers.
 
 ## E-commerce Tracking
 
@@ -17,14 +17,14 @@ Additional to the user tracking, these e-commerce events are tracked:
 - Tracking Add to Cart & Items Added to the Cart
 - Tracking Product Page Views & Category Page Views
 
-Have a look at the [Piwik e-commerce analytics docs](http://piwik.org/docs/ecommerce-analytics) for more information.
+Have a look at the [Matomo e-commerce analytics docs](http://piwik.org/docs/ecommerce-analytics) for more information.
 
-Note that the cart and order tracking uses the [PHP Client for Piwik Analytics Tracking API](https://github.com/piwik/piwik-php-tracker) to communicate with
-Piwik. This events are still tracked, even if the Piwik JavaScript tracker is blocked by an ad or privacy blocker.
+Note that the cart and order tracking uses the [PHP Client for Matomo Analytics Tracking API](https://github.com/matomo-org/matomo-php-tracker) to communicate with
+Matomo. This events are still tracked, even if the Matomo JavaScript tracker is blocked by an ad or privacy blocker.
 
 ## Installation
 
-Before installing this module, make sure, that [e-commerce tracking is enabled](http://piwik.org/docs/ecommerce-analytics/#enable-ecommerce-tracking) in Piwik for the site you want to use.
+Before installing this module, make sure, that [e-commerce tracking is enabled](http://piwik.org/docs/ecommerce-analytics/#enable-ecommerce-tracking) in Matomo for the site you want to use.
 
 ### Manual Installation
 
@@ -33,7 +33,7 @@ Before installing this module, make sure, that [e-commerce tracking is enabled](
 
 ### Composer
 
-`composer require animal/hook-piwik-analytics-module`
+`composer require vz777/hook-matomo-analytics`
 
 After finishing the installation, activate the module in the modules section of the back office and fill in `Piwik URL` and `Website ID`.
 

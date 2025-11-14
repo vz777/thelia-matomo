@@ -1,5 +1,5 @@
 {
-    "name": "animal/hook-piwik-analytics-module",
+    "name": "vz777/hook-matomo-analytics",
     "license": "MIT",
     "type": "thelia-module",
     "require": {
@@ -7,6 +7,6 @@
         "matomo/matomo-php-tracker": "~3.3.2"
     },
     "extra": {
-        "installer-name": "HookPiwikAnalytics"
+        "installer-name": "HookMatomoAnalytics"
     }
 }
