@@ -15,10 +15,10 @@
 		<language>fr_FR</language>
         <language>de_DE</language>
 	</languages>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<author>
-		<name>ANIMAL</name>
-		<email>studio@animal.at</email>
+		<name>Vincent Bourbon</name>
+		<email>dev@vincentbourbon.fr</email>
 	</author>
 	<type>classic</type>
 	<thelia>2.0.0</thelia>
