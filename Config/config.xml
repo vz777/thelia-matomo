@@ -5,7 +5,7 @@
 	<loops></loops>
 
 	<forms>
-		<form class="HookMatomoAnalytics\Form\Configuration" name="hookmatomoanalytics.configuration.form"/>
+		<form class="HookMatomoAnalytics\Form\Configuration" name="hookmatomoanalytics_configuration_form"/>
 	</forms>
 
 	<commands></commands>

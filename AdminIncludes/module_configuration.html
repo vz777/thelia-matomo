@@ -23,7 +23,7 @@
 
         <div class="form-container">
             <div class="col-md-12">
-                {form name="hookmatomoanalytics.configuration.form"}
+                {form name="hookmatomoanalytics_configuration_form"}
                 <form method="POST" id="hookmatomoanalytics-form" action="{url path="/admin/module/hookmatomoanalytics/save"}" {form_enctype} class="clearfix">
                     {form_hidden_fields}
 
@@ -33,7 +33,7 @@
                         <input type="url" value="{$value}" id="{$label_attr.for}" name="{$name}" class="form-control" title="{$label}"{if $required} required pattern="https?://.+"{/if}>
                     </div>
                     {/form_field}
-
+                    
                     {form_field field='hookmatomoanalytics_website_id'}
                     <div class="form-group {if $error}has-error{/if}">
                         <label for="{$label_attr.for}" class="control-label">{$label}{if $required}<span class="required">*</span>{/if}: </label>
@@ -41,73 +41,15 @@
                     </div>
                     {/form_field}
                     
-                    {form_field form=$form field="hookmatomoanalytics_enable_subdomains"}
+                    {form_field field='hookmatomoanalytics_container_id'}
                     <div class="form-group {if $error}has-error{/if}">
-                        <label class="control-label" for="{$label_attr.for}">
-                            <input type="checkbox" name="{$name}" value="on" id="{$label_attr.for}" {if $value}checked{/if} />
-                            {$label}
-                            {if $required}<span class="required">*</span>{/if}
-
-                            {form_error form=$form field="hookmatomoanalytics_enable_subdomains"}
-                            <br />
-                            <span class="error">{$message}</span>
-                            {/form_error}
-                        </label>
+                        <label for="{$label_attr.for}" class="control-label">{$label}{if $required}<span class="required">*</span>{/if}: </label>
+                        <input type="text" value="{$value}" id="{$label_attr.for}" name="{$name}" class="form-control" title="{$label}"{if $required} required{/if} min="1">
                     </div>
                     {/form_field}
 
-    				<fieldset class="form-group">
-                        <legend>{intl d='hookmatomoanalytics.ai' l='Content Tracking'}</legend>
-                        <p class="form-text text-muted">{intl d='hookmatomoanalytics.ai' l='For detailed information on how to integrate Content Tracking, refer to the <a href="%link" target="_blank">Matomo Developer Documentation</a>.' link='https://developer.piwik.org/guides/content-tracking'}</p>
-                        {form_field form=$form field="hookmatomoanalytics_enable_contenttracking"}
-                        {assign "content_tacking_enabled" $value}
-                        <div class="form-check {if $error}has-error{/if}">
-                            <label class="control-label" for="{$label_attr.for}">
-                                <input type="checkbox" name="{$name}" value="on" id="{$label_attr.for}" {if $value}checked{/if} />
-                                {$label}
-                                {if $required}<span class="required">*</span>{/if}
-    
-                                {form_error form=$form field="hookmatomoanalytics_enable_contenttracking"}
-                                <br />
-                                <span class="error">{$message}</span>
-                                {/form_error}
-                            </label>
-                        </div>
-                        {/form_field}
-                        {form_field form=$form field="hookmatomoanalytics_enable_contenttracking_visible_only"}
-                        <div class="form-check {if $error}has-error{/if}">
-        					<label class="control-label" for="{$label_attr.for}">
-        						<input type="checkbox" name="{$name}" value="on" id="{$label_attr.for}" {if $value}checked{/if} {if !$content_tacking_enabled} disabled{/if} />
-        						{$label}
-        						{if $required}<span class="required">*</span>{/if}
-
-        						{form_error form=$form field="hookmatomoanalytics_enable_contenttracking_visible_only"}
-        						<br />
-        						<span class="error">{$message}</span>
-        						{/form_error}
-        					</label>
-                            {/form_field}
-                        </div>
-    				</fieldset>
-
-                    <fieldset class="form-group">
-                        <legend>{intl d='hookmatomoanalytics.ai' l='Campaigns'}</legend>
-                        {form_field field='hookmatomoanalytics_custom_campaign_name'}
-                        <div class="form-group {if $error}has-error{/if}">
-                            <label for="{$label_attr.for}" class="control-label">{$label}{if $required}<span class="required">*</span>{/if}: </label>
-                            <input type="text" value="{$value}" id="{$label_attr.for}" name="{$name}" class="form-control" title="{$label}">
-                        </div>
-                        {/form_field}
-                        
-                        {form_field field='hookmatomoanalytics_custom_campaign_keyword'}
-                        <div class="form-group {if $error}has-error{/if}">
-                            <label for="{$label_attr.for}" class="control-label">{$label}{if $required}<span class="required">*</span>{/if}: </label>
-                            <input type="text" value="{$value}" id="{$label_attr.for}" name="{$name}" class="form-control" title="{$label}">
-                        </div>
-                        {/form_field}
-                    </div>
-
                     <button type="submit" id="hookmatomoanalytics-save" name="hookmatomoanalytics_save" value="save" class="form-submit-button btn btn-sm btn-default" title="{intl d='hookmatomoanalytics.ai' l='Save'}">{intl d='hookmatomoanalytics.ai' l='Save'}</button>
+                    
                 </form>
                 {/form}
             </div>

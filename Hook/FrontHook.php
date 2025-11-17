@@ -23,7 +23,7 @@ class FrontHook extends BaseHook
     public function __construct()
     {
         $this->url = ConfigQuery::read('hookmatomoanalytics_url', false);
-        $this->website_id = ConfigQuery::read('hookmatomoanalytics_website_id', false);
+        $this->container_id = ConfigQuery::read('hookmatomoanalytics_container_id', false);
     }
 
     /* Include tracking bug
@@ -39,13 +39,14 @@ class FrontHook extends BaseHook
 
                 $defaultCategory = CategoryQuery::create()
                     ->findPk($categoryId);
-
-                $options[] = array(
-                    'setEcommerceView',
-                    false,
-                    false,
-                    $defaultCategory->getTitle(), // Category
-                );
+                
+                $options[] = [
+                'event' => 'view_item_list',
+                'ecommerce' => [
+                    'item_list_name' => $defaultCategory->getTitle()
+                ]
+                ];
+                
                 break;
 
             // Product detail page viewed
@@ -59,13 +60,20 @@ class FrontHook extends BaseHook
                         ->findPk($defaultCategoryId);
                 }
 
-                $options[] = array(
-                    'setEcommerceView',
-                    ($product->getRef() ? $product->getRef() : $product->getId()), // SKU or ID
-                    $product->getTitle(), // Name
-                    (isset($defaultCategory) ? $defaultCategory->getTitle() : false), // Default product category
-                    false, // Price
-                );
+                $options[] = [
+                'event' => 'view_item',
+                'ecommerce' => [
+                    'item_id' => $product->getRef() ?: $product->getId(),
+                    'item_list_name' => $defaultCategory ? $defaultCategory->getTitle() : 'false',
+                                 'items' => [[
+                                'item_id' => $product->getRef() ?: (string)$product->getId(),
+                                'item_name' => $product->getTitle(),
+                                'item_category' => $defaultCategory ? $defaultCategory->getTitle() : 'false',
+                                'price' => $product->getPrice() ?? false
+                            ]]
+                ]
+                ];
+
                 break;
         }
 
@@ -76,77 +84,25 @@ class FrontHook extends BaseHook
 
     private function generateTrackingCode($options)
     {
-        if (!empty($this->url) && is_numeric($this->website_id)) {
+        if (!empty($this->url) && (!empty($this->container_id))) {
             // remove / after url
             $this->url = rtrim($this->url, '/') . '/';
 
-            if ((bool)ConfigQuery::read('hookmatomoanalytics_enable_subdomains', false)) {
-                // Get host w/o www or subdomain, see http://snipplr.com/view/61235/
-                preg_match("/[^\.\/]+\.[^\.\/]+$/", $_SERVER['HTTP_HOST'], $matches);
-
-                $options[] = array(
-                    'setCookieDomain',
-                    '*.' . $matches[0]
-                );
-            }
-
-            if (!empty(trim(ConfigQuery::read('hookmatomoanalytics_custom_campaign_name', '')))) {
-                $options[] = array(
-                    'setCampaignNameKey',
-                    ConfigQuery::read('hookmatomoanalytics_custom_campaign_name')
-                );
-            }
-
-            if (!empty(trim(ConfigQuery::read('hookmatomoanalytics_custom_campaign_keyword', '')))) {
-                $options[] = array(
-                    'setCampaignKeywordKey',
-                    ConfigQuery::read('hookmatomoanalytics_custom_campaign_keyword')
-                );
-            }
-
-            // Enable User ID tracking
-            // See http://piwik.org/docs/user-id/
-            if ($customer = $this->getSession()->getCustomerUser() !== null) {
-                $options[] = array(
-                    'setUserId',
-                    $this->getSession()->getCustomerUser()->getRef()
-                );
-            }
-
-            // Enable Content Tracking
-            // See http://piwik.org/docs/content-tracking/
-            if ((bool)ConfigQuery::read('hookmatomoanalytics_enable_contenttracking', false)) {
-                if ((bool)ConfigQuery::read('hookmatomoanalytics_enable_contenttracking_visible_only', false)) {
-                    $options[] = array('trackVisibleContentImpressions');
-                } else {
-                    $options[] = array('trackAllContentImpressions');
-                }
-            }
-
-            $code = '
-            <script type="text/javascript">
-                var _paq = _paq || [];';
-
-            foreach ($options as $option) {
-                $code .= '
-                _paq.push(' . json_encode($option) . ');';
-            }
-
-            $code .= '
-                _paq.push([\'enableLinkTracking\']);
-                _paq.push([\'trackPageView\']);
-                (function() {
-                    var u="' . $this->url . '";
-                    _paq.push([\'setTrackerUrl\', u+\'matomo.php\']);
-                    _paq.push([\'setSiteId\', ' . $this->website_id . ']);
-                    var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
-                    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
-                })();
-            </script>
-            <noscript><p><img src="' . $this->url . 'matomo.php?idsite=' . $this->website_id . '" style="border:0;" alt="" /></p></noscript>
-            ';
-
-            return $code;
+        $code = '<script>
+          var _mtm = window._mtm = window._mtm || [];
+          _mtm.push({\'mtm.startTime\': (new Date().getTime()), \'event\': \'mtm.Start\'});
+          (function() {
+            var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
+            g.async = true;
+            g.src = "' . $this->url . 'js/container_' . $this->container_id . '.js";
+            s.parentNode.insertBefore(g, s);
+          })();
+        </script>';
+        
+        foreach ($options as $option) {
+            $code .= '<script>window._mtm.push(' . json_encode($option) . ');</script>';
+        }
+        return $code;
         }
 
         return false;

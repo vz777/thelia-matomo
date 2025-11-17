@@ -5,6 +5,9 @@ namespace HookMatomoAnalytics\Form;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 use Thelia\Model\ConfigQuery;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -19,7 +22,7 @@ class Configuration extends BaseForm
         $this->formBuilder
             ->add(
                 'hookmatomoanalytics_url',
-                'text',
+                TextType::class,
                 array(
                     'constraints' => array(
                         new NotBlank(),
@@ -31,77 +34,33 @@ class Configuration extends BaseForm
                     ),
                 )
             )
+            
             ->add(
                 'hookmatomoanalytics_website_id',
-                'number',
+                NumberType::class,
                 array(
                     'constraints' => array(
                         new NotBlank(),
                     ),
-                    'data' => ConfigQuery::read('hookmatomoanalytics_website_id', 0),
-                    'label' => $this->translator->trans('Website ID'),
+                    'data' => ConfigQuery::read('hookmatomoanalytics_container_id', 0),
+                    'label' => $this->translator->trans('Container ID'),
                     'label_attr' => array(
-                        'for' => 'hookmatomoanalytics_website_id',
+                        'for' => 'hookmatomoanalytics_container_id',
                     ),
                 )
-            )
+            )        
+
             ->add(
-                'hookmatomoanalytics_enable_subdomains',
-                'checkbox',
+                'hookmatomoanalytics_container_id',
+                TextType::class,
                 array(
-                    'required' => false,
-                    'value' => (bool)ConfigQuery::read('hookmatomoanalytics_enable_subdomains', false),
-                    'label' => $this->translator->trans('Enable tracking across subdomains'),
-                    'label_attr' => array(
-                        'for' => 'hookmatomoanalytics_enable_subdomains',
+                    'constraints' => array(
+                        new NotBlank(),
                     ),
-                )
-            )
-            ->add(
-                'hookmatomoanalytics_enable_contenttracking',
-                'checkbox',
-                array(
-                    'required' => false,
-                    'value' => (bool)ConfigQuery::read('hookmatomoanalytics_enable_contenttracking', false),
-                    'label' => $this->translator->trans('Enable Content Tracking'),
+                    'data' => ConfigQuery::read('hookmatomoanalytics_container_id', 0),
+                    'label' => $this->translator->trans('Container ID'),
                     'label_attr' => array(
-                        'for' => 'hookmatomoanalytics_enable_contenttracking',
-                    ),
-                )
-            )
-            ->add(
-                'hookmatomoanalytics_enable_contenttracking_visible_only',
-                'checkbox',
-                array(
-                    'required' => false,
-                    'value' => (bool)ConfigQuery::read('hookmatomoanalytics_enable_contenttracking_visible_only', false),
-                    'label' => $this->translator->trans('Only track visible content'),
-                    'label_attr' => array(
-                        'for' => 'hookmatomoanalytics_enable_contenttracking_visible_only',
-                    ),
-                )
-            )
-            ->add(
-                'hookmatomoanalytics_custom_campaign_name',
-                'text',
-                array(
-                    'required' => false,
-                    'data' => ConfigQuery::read('hookmatomoanalytics_custom_campaign_name', ''),
-                    'label' => $this->translator->trans('Custom campaign name parameter'),
-                    'label_attr' => array(
-                        'for' => 'hookmatomoanalytics_custom_campaign_name',
-                    ),
-                )
-            )
-            ->add(
-                'hookmatomoanalytics_custom_campaign_keyword',
-                'text',
-                array(
-                    'required' => false,
-                    'data' => ConfigQuery::read('hookmatomoanalytics_custom_campaign_keyword', ''),
-                    'label' => $this->translator->trans('Custom campaign keyword parameter'),
-                    'label_attr' => array(
-                        'for' => 'hookmatomoanalytics_custom_campaign_keyword',
+                        'for' => 'hookmatomoanalytics_container_id',
                     ),
                 )
             );
@@ -110,8 +69,8 @@ class Configuration extends BaseForm
     /**
      * @return string the name of you form. This name must be unique
      */
-    public function getName()
+    public static function getName()
     {
-        return 'hookmatomoanalytics';
+        return 'hookmatomoanalytics_configuration_form';
     }
 }
