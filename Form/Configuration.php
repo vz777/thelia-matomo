@@ -34,7 +34,7 @@ class Configuration extends BaseForm
                     ),
                 )
             )
-            
+
             ->add(
                 'hookmatomoanalytics_website_id',
                 NumberType::class,
@@ -42,13 +42,13 @@ class Configuration extends BaseForm
                     'constraints' => array(
                         new NotBlank(),
                     ),
-                    'data' => ConfigQuery::read('hookmatomoanalytics_container_id', 0),
-                    'label' => $this->translator->trans('Container ID'),
+                    'data' => ConfigQuery::read('hookmatomoanalytics_website_id', 0),
+                    'label' => $this->translator->trans('Website ID'),
                     'label_attr' => array(
-                        'for' => 'hookmatomoanalytics_container_id',
+                        'for' => 'hookmatomoanalytics_website_id',
                     ),
                 )
-            )        
+            )
 
             ->add(
                 'hookmatomoanalytics_container_id',

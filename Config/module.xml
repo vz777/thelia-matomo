@@ -15,9 +15,9 @@
 		<language>fr_FR</language>
         <language>de_DE</language>
 	</languages>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<author>
-		<name>ANIMAL</name>
+		<name>Vincent Bourbon</name>
 		<email>dev@vincentbourbon.fr</email>
 	</author>
 	<type>classic</type>
